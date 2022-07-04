@@ -1,28 +1,55 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="Users" name="first"
+        ><TabUsers :todos-data="todosData"
+      /></el-tab-pane>
+      <el-tab-pane label="Table" name="second"
+        ><TabTable :todos-data="todosData"
+      /></el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TabUsers from "./components/TabUsers";
+import TabTable from "./components/TabTable";
 
 export default {
-  name: 'App',
+  /**
+   * Name.
+   */
+  name: "App",
+
+  /**
+   * Components
+   */
   components: {
-    HelloWorld
-  }
-}
+    TabUsers,
+    TabTable,
+  },
+
+    /**
+   * Mounted hook.
+   */
+  mounted() {
+    fetch("https://jsonplaceholder.typicode.com/todos/")
+      .then((response) => response.json())
+      .then((json) => (this.todosData = json));
+  },
+
+
+  /**
+   * Reactive properties.
+   * @returns {{}}
+   */
+  data: function () {
+    return {
+      todosData: {},
+      activeName: "first",
+    };
+  },
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
