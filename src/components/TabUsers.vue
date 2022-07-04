@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="users">
     <el-collapse v-model="activeUser">
       <div
         v-for="user in users"
@@ -53,7 +53,8 @@ export default {
   mounted() {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
-      .then((json) => (this.users = json));
+      .then((json) => (this.users = json))
+      .catch(error => console.log(error.message));
   },
 
   /**
