@@ -95,13 +95,25 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
 .el-collapse-item__holder {
   position: relative;
 }
 .el-collapse-item__holder .el-button {
   position: absolute;
-  top: 4px;
-  right: 0;
+  top: 9px;
+  right: 12px;
+}
+.el-collapse-item__arrow {
+  margin-left: 12px;
+}
+.el-collapse-item__header {
+  border: 1px solid lightgrey;
+  padding: 4px 140px 4px 24px;
+}
+.el-collapse-item__content {
+  padding: 24px;
+  border: 1px solid lightgrey;
+  border-bottom: none;
 }
 </style>
