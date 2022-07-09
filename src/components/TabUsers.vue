@@ -18,7 +18,10 @@
         </el-collapse-item>
       </div>
     </el-collapse>
-    <el-dialog title="Modal" :visible.sync="dialogVisible" width="600px">
+    <el-dialog 
+      title="Modal" 
+      :visible.sync="dialogVisible" 
+      width="600px">
       <span>This is a message {{ idUser }}</span>
 
       <span slot="footer" class="dialog-footer">
@@ -85,6 +88,7 @@ export default {
       console.log(id);
       this.dialogVisible = true;
       this.idUser = id;
+      console.log(this.users[id].name);
     },
   },
 };
