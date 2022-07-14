@@ -39,17 +39,6 @@ export default {
   name: "TabUsers",
 
   props: ["users"],
-  // /**
-  //  * Watcher
-  //  */
-  // watch: {first
-  //   /**
-  //    * Value watcher
-  //    */
-  //   value() {
-  //     this.updateActiveUser();
-  //   },
-  // },
 
   /**
    * Reactive properties.
@@ -66,18 +55,9 @@ export default {
    * Methods.
    */
   methods: {
-    /**
-     * Update active user
-     */
-    updateActiveUser() {
-      this.activeUser = this.value;
-    },
-
-    openModal(id) {
-      console.log(id);
+    
+    openModal() {
       this.dialogVisible = true;
-      // this.userId = id;
-      console.log(this.users[id].name);
     },
   },
 };

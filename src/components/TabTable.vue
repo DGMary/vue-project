@@ -78,6 +78,10 @@ export default {
           return e[0];
         });
     },
+
+    /**
+     * Update row className
+     */
     tableRowClassName({ row }) {
       return this.selected[row.id] ? "is-checked" : "";
     },
