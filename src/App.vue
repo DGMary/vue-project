@@ -1,19 +1,11 @@
 <template>
   <div id="app">
-    <el-tabs v-model="activeName">
-      <el-tab-pane label="Users" name="first">
-        <TabUsers />
-      </el-tab-pane>
-      <el-tab-pane label="Table" name="second">
-        <TabTable />
-      </el-tab-pane>
-    </el-tabs>
+    <Tabs />
   </div>
 </template>
 
 <script>
-import TabUsers from "./components/TabUsers";
-import TabTable from "./components/TabTable";
+import Tabs from "./components/Tabs";
 
 export default {
   /**
@@ -25,20 +17,8 @@ export default {
    * Components
    */
   components: {
-    TabUsers,
-    TabTable,
-  },
-
-  /**
-   * Reactive properties.
-   * @returns {{}}
-   */
-  data: function () {
-    return {
-      activeName: "first",
-    };
+    Tabs,
   },
 };
 </script>
 
-<style></style>

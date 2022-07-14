@@ -1,18 +1,24 @@
 <template>
-  <div v-if="todosData">
-    <el-table :data="todosData" style="width: 100%">
-      <el-table-column prop="title" label="Title" width="360"> </el-table-column>
+  <div v-if="users.length">
+    <el-table
+      :data="users"
+      style="width: 100%"
+      ref="usersTable"
+      :row-class-name="tableRowClassName"
+    >
+      <el-table-column prop="name" label="Title" width="360"> </el-table-column>
       <el-table-column prop="id" label="Id" width="80"> </el-table-column>
-      <el-table-column prop="completed" label="Сompleted" width="100">
+      <el-table-column prop="username" label="User Name" width="200"></el-table-column>
+      <el-table-column width="200">
         <template slot-scope="scope">
-          {{ scope.row.completed }}
-        </template>
-      </el-table-column>
-      <el-table-column width="100">
-        <template slot-scope="scope">
-          <el-checkbox @change="handleEdit(scope.$index, scope.row)"
-            >Option</el-checkbox
+          <el-checkbox
+            :key="scope.row.id"
+            v-model="selected[scope.row.id]"
+            :name="'checkbox_' + scope.row.id"
+            :checked="false"
           >
+            <span v-if="selected[scope.row.id]">Primary</span>
+          </el-checkbox>
         </template>
       </el-table-column>
     </el-table>
@@ -28,35 +34,59 @@ export default {
   name: "TabTable",
 
   /**
+   * Props.
+   */
+  props: ["users"],
+  
+  /**
    * Reactive properties.
    * @returns {{}}
    */
-  data: function () {
+  data() {
     return {
-      todosData: [],
+      selectedUsers: [],
+      selected: {},
     };
   },
 
   /**
-   * Mounted hook.
+   * Watch
    */
-  mounted() {
-    fetch("https://jsonplaceholder.typicode.com/todos/")
-      .then((response) => response.json())
-      .then((json) => (this.todosData = json))
-      .catch(error => console.log(error.message));
+  watch: {
+    /**
+     * Selected values watcher
+     */
+    selected: {
+      deep: true,
+      handler(values) {
+        this.updateSelectedProperties(values);
+      },
+    },
   },
 
   /**
    * Methods.
    */
   methods: {
-    handleEdit(ind, row) {
-      console.log("test", ind, row);
+    /**
+     * Update selected properties
+     */
+    updateSelectedProperties(values) {
+      this.selectedUsers = Object.entries(values)
+        .filter((e) => e[1])
+        .map((e) => {
+          return e[0];
+        });
+    },
+    tableRowClassName({ row }) {
+      return this.selected[row.id] ? "is-checked" : "";
     },
   },
 };
 </script>
 
 <style>
+.el-table .is-checked {
+  background: #f0f9eb;
+}
 </style>

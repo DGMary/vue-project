@@ -1,14 +1,14 @@
 <template>
-  <div v-if="users">
+  <div v-if="users.length">
     <el-collapse v-model="activeUser">
       <div
         v-for="user in users"
         :key="user.id"
         class="el-collapse-item__holder"
       >
-        <el-button type="primary" @click="openModal(user.id)"
-          >More info</el-button
-        >
+        <el-button type="primary" @click="openModal(user.id)">
+          More info
+        </el-button>
         <el-collapse-item :title="user.name" :name="user.id">
           <div>
             <p><b>Name:</b> {{ user.name }}</p>
@@ -21,9 +21,9 @@
     <el-dialog 
       title="Modal" 
       :visible.sync="dialogVisible" 
-      width="600px">
-      <span>This is a message {{ idUser }}</span>
-
+      width="600px"
+      >
+      <span>This is a message</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
       </span>
@@ -38,27 +38,18 @@ export default {
    */
   name: "TabUsers",
 
-  /**
-   * Watcher
-   */
-  watch: {
-    /**
-     * Value watcher
-     */
-    value() {
-      this.updateActiveUser();
-    },
-  },
-
-  /**
-   * Mounted hook.
-   */
-  mounted() {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((json) => (this.users = json))
-      .catch(error => console.log(error.message));
-  },
+  props: ["users"],
+  // /**
+  //  * Watcher
+  //  */
+  // watch: {first
+  //   /**
+  //    * Value watcher
+  //    */
+  //   value() {
+  //     this.updateActiveUser();
+  //   },
+  // },
 
   /**
    * Reactive properties.
@@ -66,10 +57,8 @@ export default {
    */
   data() {
     return {
-      activeUser: [],
+      activeUser: null,
       dialogVisible: false,
-      idUser: 0,
-      users: {},
     };
   },
 
@@ -87,7 +76,7 @@ export default {
     openModal(id) {
       console.log(id);
       this.dialogVisible = true;
-      this.idUser = id;
+      // this.userId = id;
       console.log(this.users[id].name);
     },
   },
