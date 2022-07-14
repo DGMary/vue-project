@@ -77,7 +77,11 @@ export default {
         .map((e) => {
           return e[0];
         });
+
+      this.$emit('update', this.selectedUsers);
     },
+
+    
 
     /**
      * Update row className
