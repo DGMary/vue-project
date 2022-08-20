@@ -3,7 +3,6 @@
     <el-table
       :data="users"
       style="width: 100%"
-      ref="usersTable"
       :row-class-name="tableRowClassName"
     >
       <el-table-column prop="name" label="Title" width="360"> </el-table-column>
@@ -13,11 +12,11 @@
         <template slot-scope="scope">
           <el-checkbox
             :key="scope.row.id"
-            v-model="selected[scope.row.id]"
+            v-model="selectedProperties[scope.row.id]"
             :name="'checkbox_' + scope.row.id"
             :checked="false"
           >
-            <span v-if="selected[scope.row.id]">Primary</span>
+            <span v-if="selectedProperties[scope.row.id]">Primary</span>
           </el-checkbox>
         </template>
       </el-table-column>
@@ -36,7 +35,15 @@ export default {
   /**
    * Props.
    */
-  props: ["users"],
+  props: {
+    /**
+     * Users
+     */
+    users: {
+      type: Array, 
+      required: true
+    },
+  },
   
   /**
    * Reactive properties.
@@ -44,8 +51,8 @@ export default {
    */
   data() {
     return {
-      selectedUsers: [],
-      selected: {},
+      selectedPropertiesId: [],
+      selectedProperties: {},
     };
   },
 
@@ -56,7 +63,7 @@ export default {
     /**
      * Selected values watcher
      */
-    selected: {
+    selectedProperties: {
       deep: true,
       handler(values) {
         this.updateSelectedProperties(values);
@@ -72,22 +79,20 @@ export default {
      * Update selected properties
      */
     updateSelectedProperties(values) {
-      this.selectedUsers = Object.entries(values)
-        .filter((e) => e[1])
-        .map((e) => {
-          return e[0];
+      this.selectedPropertiesId = Object.entries(values)
+        .filter((value) => value[1])
+        .map((id) => {
+          return id[0];
         });
 
-      this.$emit('update', this.selectedUsers);
+      this.$emit('update', this.selectedPropertiesId);
     },
-
-    
 
     /**
      * Update row className
      */
     tableRowClassName({ row }) {
-      return this.selected[row.id] ? "is-checked" : "";
+      return this.selectedProperties[row.id] ? "is-checked" : "";
     },
   },
 };

@@ -43,7 +43,26 @@ export default {
    */
   name: "TabUsers",
 
-  props: ["users", "activeUsers"],
+  /**
+   * Props.
+   */
+  props: {
+    /**
+     * Users
+     */
+    users: {
+      type: Array, 
+      required: true
+    },
+
+    /**
+     * Active users
+     */
+    activeUsers: {
+      type: Array, 
+      required: true
+    }
+  },
 
   /**
    * Reactive properties.
@@ -59,8 +78,7 @@ export default {
   /**
    * Methods.
    */
-  methods: {
-    
+  methods: {    
     openModal() {
       this.dialogVisible = true;
     },
