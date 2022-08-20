@@ -59,12 +59,6 @@ export default {
      */
     updateActiveUsers(el) {
       this.activeUsers = el;
-      console.log(el, "test emit", this.activeUsers);
-      // this.selectedUsers = Object.entries(values)
-      //   .filter((e) => e[1])
-      //   .map((e) => {
-      //     return e[0];
-      //   });
     },
   },
 }
