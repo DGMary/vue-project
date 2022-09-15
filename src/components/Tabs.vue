@@ -50,20 +50,21 @@ export default {
       .catch(error => console.log(error.message));
   },
 
-    /**
+  /**
    * Methods.
    */
   methods: {
     /**
      * Update activeUsers
      */
-    updateActiveUsers(el) {
-      this.activeUsers = el;
+    updateActiveUsers(id) {
+       if (this.activeUsers.includes(id)) {
+        this.activeUsers = this.activeUsers.filter(word => word != id);
+      } else {
+        this.activeUsers.push(id);
+      }
     },
   },
 }
 </script>
 
-<style>
-
-</style>
