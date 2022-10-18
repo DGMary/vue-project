@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    Test
     <Tabs />
   </div>
 </template>
