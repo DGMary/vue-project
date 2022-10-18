@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    Test in master
     <Tabs />
   </div>
 </template>
