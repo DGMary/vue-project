@@ -1,28 +1,34 @@
 <template>
-  <div v-if="users.length">
-    <el-table
-      :data="users"
-      style="width: 100%"
-      ref="usersTable"
-      :row-class-name="tableRowClassName"
-    >
-      <el-table-column prop="name" label="Title" width="360"> </el-table-column>
-      <el-table-column prop="id" label="Id" width="80"> </el-table-column>
-      <el-table-column prop="username" label="User Name" width="200"></el-table-column>
-      <el-table-column width="200">
-        <template slot-scope="scope">
-          <el-checkbox
-            :key="scope.row.id"
-            v-model="selected[scope.row.id]"
-            :name="'checkbox_' + scope.row.id"
-            :checked="false"
-          >
-            <span v-if="selected[scope.row.id]">Primary</span>
-          </el-checkbox>
-        </template>
-      </el-table-column>
-    </el-table>
-  </div>
+   <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Id</th>
+        <th>User Name</th>
+        <th>User selected</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr  
+        v-for="user in users"
+        :key="user.id"
+      >
+        <td>{{user.name}}</td>
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>          
+          <label 
+          :for="'checkbox_' + user.id">
+            <input type="checkbox" 
+              :name="'checkbox_' + user.id"
+              v-model="checkedUser[user.id]"
+              @change="checkedUserId(user.id)">
+            <span  v-if="checkedUser[user.id]">Primary</span>            
+          </label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 
@@ -36,64 +42,45 @@ export default {
   /**
    * Props.
    */
-  props: ["users"],
-  
+  props: {
+    /**
+     * Users
+     */
+    users: {
+      type: Array, 
+      required: true
+    },
+  },
+
   /**
    * Reactive properties.
    * @returns {{}}
    */
   data() {
     return {
-      selectedUsers: [],
-      selected: {},
+      checkedUser: {},
     };
-  },
-
-  /**
-   * Watch
-   */
-  watch: {
-    /**
-     * Selected values watcher
-     */
-    selected: {
-      deep: true,
-      handler(values) {
-        this.updateSelectedProperties(values);
-      },
-    },
   },
 
   /**
    * Methods.
    */
   methods: {
-    /**
-     * Update selected properties
-     */
-    updateSelectedProperties(values) {
-      this.selectedUsers = Object.entries(values)
-        .filter((e) => e[1])
-        .map((e) => {
-          return e[0];
-        });
-
-      this.$emit('update', this.selectedUsers);
+    checkedUserId(id) {
+      this.$emit('update', id);
     },
-
-    
-
-    /**
-     * Update row className
-     */
-    tableRowClassName({ row }) {
-      return this.selected[row.id] ? "is-checked" : "";
-    },
-  },
+  }
 };
 </script>
 
 <style>
+
+.table th,
+.table td {
+  padding: 8px 16px;
+  border: 1px solid lightgray;
+}
+
 .el-table .is-checked {
   background: #f0f9eb;
 }
