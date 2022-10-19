@@ -1,17 +1,17 @@
 <template>
   <el-tabs v-model="activeTab">
     <el-tab-pane label="Users" name="users">
-      <TabUsers :users="users" :active-users="activeUsers" />
+      <UserDetails :users="users" :active-users="activeUsers" />
     </el-tab-pane>
     <el-tab-pane label="Table" name="table">
-      <TabTable :users="users" @update="updateActiveUsers"/>
+      <Users :users="users" @update="updateActiveUsers"/>
     </el-tab-pane>
   </el-tabs>
 </template>
 
 <script>
-import TabUsers from "./TabUsers";
-import TabTable from './TabTable'
+import UserDetails from "./UserDetails";
+import Users from './Users'
 
 
 export default {
@@ -24,8 +24,8 @@ export default {
    * Components
    */
   components: {
-    TabUsers,
-    TabTable,
+    UserDetails,
+    Users,
   },
 
   /**
@@ -59,7 +59,7 @@ export default {
      */
     updateActiveUsers(id) {
        if (this.activeUsers.includes(id)) {
-        this.activeUsers = this.activeUsers.filter(word => word != id);
+        this.activeUsers = this.activeUsers.filter(userId => userId != id);
       } else {
         this.activeUsers.push(id);
       }

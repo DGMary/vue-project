@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    test main branch
     <Tabs />
   </div>
 </template>

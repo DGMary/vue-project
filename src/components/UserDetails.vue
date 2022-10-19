@@ -42,7 +42,7 @@ export default {
   /**
    * Name.
    */
-  name: "TabUsers",
+  name: "UserDetails",
 
   /**
    * Props.

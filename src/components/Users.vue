@@ -3,7 +3,6 @@
     <thead>
       <tr>
         <th>Title</th>
-        <th>Id</th>
         <th>User Name</th>
         <th>User selected</th>
       </tr>
@@ -14,12 +13,14 @@
         :key="user.id"
       >
         <td>{{user.name}}</td>
-        <td>{{user.id}}</td>
         <td>{{user.username}}</td>
         <td>          
           <label 
-          :for="'checkbox_' + user.id">
-            <input type="checkbox" 
+          :for="'checkbox_' + user.id"
+          >
+            <input 
+              type="checkbox" 
+              class="checkbox"
               :name="'checkbox_' + user.id"
               v-model="checkedUser[user.id]"
               @change="checkedUserId(user.id)">
@@ -37,7 +38,7 @@ export default {
   /**
    * Name.
    */
-  name: "TabTable",
+  name: "Users",
 
   /**
    * Props.
@@ -75,6 +76,10 @@ export default {
 
 <style>
 
+.table td  {
+  min-width: 200px;
+}
+
 .table th,
 .table td {
   padding: 8px 16px;
@@ -83,5 +88,9 @@ export default {
 
 .el-table .is-checked {
   background: #f0f9eb;
+}
+
+.checkbox {
+  cursor: pointer;
 }
 </style>
