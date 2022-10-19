@@ -39,8 +39,18 @@ export default {
   display: flex;
   padding: 0;
   margin: 0;
+  border-bottom: 1px solid lightgrey;
+  margin-bottom: 20px;
+}
+.tabs-nav__item {
+  border: 1px solid lightgrey;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
 }
 
+.tabs-nav__item  + .tabs-nav__item  {
+  border-left: none;
+}
 .tabs-nav__item button {
   border: none;
   padding: 0;
@@ -48,6 +58,14 @@ export default {
   line-height: 1.4;
   background: none;
   padding: 10px 15px;
+  cursor: pointer;
+}
+
+.tabs-nav__item button:hover {
+  color: blue;
+}
+.tabs-nav__item.active button {
+  font-weight: bold;
 }
 </style>
 
