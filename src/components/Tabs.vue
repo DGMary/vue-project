@@ -10,8 +10,10 @@
 </template>
 
 <script>
+import { TABSINFO } from './tabs.js';
 import UserDetails from "./UserDetails";
 import Users from './Users'
+
 
 
 export default {
@@ -48,6 +50,18 @@ export default {
       .then((response) => response.json())
       .then((json) => (this.users = json))
       .catch(error => console.log(error.message));
+  },
+
+  /**
+   * Computed
+   */
+  computed: {
+    /**
+     * TabsInformation.
+     */
+     tabsInformation () {
+      return TABSINFO;
+    },
   },
 
   /**
