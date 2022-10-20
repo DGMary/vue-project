@@ -1,60 +1,54 @@
 <template>
-  <div class="tabs">
-    <Nav :selected="selected" :tabs="tabs" @handleClicked="updataSelected"/>
-    <TabContent :content="curContent" />
-  </div>
+  <ul class="tabs-nav__list" v-if="tabs.length">
+      <li  
+        v-for="(tab, index) in tabs"
+        :key="index"  
+        :class="['tabs-nav__item', selected === index && ' active']"        
+        >
+        <button  @click="handleSelected(index)">
+          {{ tab.title }}
+        </button>
+      </li>
+    </ul>
 </template>
 
 <script>
-import TabContent from './TabContent.vue'
-import Nav from './Nav.vue'
-import { TABSINFO } from './tabs'
-
 export default {
+
   /**
    * Name.
    */
-  name: "Tabs",
+  name: "Nav",
 
   /**
-   * Components
+   * Props.
    */
-  components: {
-    TabContent,
-    Nav,
-  },
-
-  /**
-   * Computed
-   */
-  computed: {
+  props: {
+    
     /**
-     * TabsInformation.
+     * Tabs
      */
-     tabs () {
-      return TABSINFO;
+    tabs: {
+      type: Array,
+      required: true
     },
-  },
-  
 
-  /**
-   * Data
-   */
-  data() {
-    return {
-      selected: 0, 
-      curContent: "Details",
-    };
+    /**
+     * Selected tab
+     */
+    selected: {
+      type: Number,
+      required: true      
+    }
   },
 
   /**
    * Methods
    */
   methods: {
-    updataSelected(index) {
-      this.selected = index;
-      this.curContent = this.tabs[index].component;
-    },
+    handleSelected(index) {
+      this.$emit("handleClicked", index);
+    }
   }
 }
 </script>
