@@ -1,4 +1,4 @@
 export const TABSINFO = [
-  {title: 'Users details', component: 'UserDetails'},
-  {title: 'Users list', component: 'Users'},
+  {title: 'User details', component: 'Details'},
+  {title: 'User list', component: 'Users'},
 ];

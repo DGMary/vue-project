@@ -24,7 +24,7 @@
         </el-collapse-item>
       </div>
     </el-collapse>
-    <el-dialog 
+    <!-- <el-dialog 
       title="Modal" 
       :visible.sync="dialogVisible" 
       width="600px"
@@ -33,7 +33,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 

@@ -1,27 +1,27 @@
 <template>
-  <div class="tabs-container">
-    <Nav />
-    <div class="tabs-content">
-      Tabs content
-    </div>
+  <div class="tabs">
+    <ul class="tabs-nav__list">
+      <li  
+        v-for="(tab, index) in tabs"
+        :key="index"  
+        class="tabs-nav__item"
+        :class="['tab', selected === index && ' active']"
+        
+        >
+        <button  @click="updataSelected(index)">
+          {{ tab.title }}
+        </button>
+      </li>
+    </ul>
 
-    <el-tabs v-model="activeTab">
-      <el-tab-pane label="Users" name="users">
-        <UserDetails :users="users" :active-users="activeUsers" />
-      </el-tab-pane>
-      <el-tab-pane label="Table" name="table">
-        <Users :users="users" @update="updateActiveUsers"/>
-      </el-tab-pane>
-    </el-tabs>
+    <TabContent :content="curContent" />
+
   </div>
 </template>
 
 <script>
-import UserDetails from "./UserDetails";
-import Users from './Users'
-import Nav from './Nav.vue'
-
-
+import TabContent from './TabContent.vue'
+import { TABSINFO } from './tabs'
 
 export default {
   /**
@@ -33,48 +33,70 @@ export default {
    * Components
    */
   components: {
-    UserDetails,
-    Users,
-    Nav
+    TabContent,
   },
 
   /**
-   * Reactive properties.
-   * @returns {{}}
+   * Computed
    */
+  computed: {
+    /**
+     * TabsInformation.
+     */
+     tabs () {
+      return TABSINFO;
+    },
+  },
+
   data() {
     return {
-      users: [],
-      activeTab: "users",
-      activeUsers: [],
+      selected: 0, 
+      curContent: "Details",
     };
   },
 
-  /**
-   * Mounted hook.
-   */
-  mounted() {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((json) => (this.users = json))
-      .catch(error => console.log(error.message));
-  },
-
-  /**
-   * Methods.
-   */
   methods: {
-    /**
-     * Update activeUsers
-     */
-    updateActiveUsers(id) {
-       if (this.activeUsers.includes(id)) {
-        this.activeUsers = this.activeUsers.filter(userId => userId != id);
-      } else {
-        this.activeUsers.push(id);
-      }
+    updataSelected(index) {
+      this.selected = index;
+      this.curContent = this.tabs[index].component;
     },
-  },
+  }
 }
 </script>
+
+<style>
+.tabs-nav__list {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid lightgrey;
+  margin-bottom: 20px;
+}
+.tabs-nav__item {
+  border: 1px solid lightgrey;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+}
+
+.tabs-nav__item  + .tabs-nav__item  {
+  border-left: none;
+}
+.tabs-nav__item button {
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  background: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.tabs-nav__item button:hover {
+  color: blue;
+}
+.tabs-nav__item.active button {
+  font-weight: bold;
+}
+</style>
 
