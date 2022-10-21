@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import emitter from './emittery';
+
 export default {
 
   /**
@@ -24,7 +26,6 @@ export default {
    * Props.
    */
   props: {
-    
     /**
      * Tabs
      */
@@ -47,8 +48,8 @@ export default {
    */
   methods: {
     handleSelected(index) {
-      this.$emit("handleClicked", index);
-    }
+      emitter.emit('handleClicked', index);
+    },
   }
 }
 </script>

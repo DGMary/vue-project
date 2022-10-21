@@ -1,6 +1,6 @@
 <template>
   <div class="tabs">
-    <Nav :selected="selected" :tabs="tabs" @handleClicked="updataSelected"/>
+    <Nav :selected="selected" :tabs="tabs" />
     <TabContent :content="curContent" />
   </div>
 </template>
@@ -9,6 +9,8 @@
 import TabContent from './TabContent.vue'
 import Nav from './Nav.vue'
 import { TABSINFO } from './tabs'
+
+import emitter from './emittery';
 
 export default {
   /**
@@ -34,8 +36,7 @@ export default {
      tabs () {
       return TABSINFO;
     },
-  },
-  
+  },  
 
   /**
    * Data
@@ -47,15 +48,12 @@ export default {
     };
   },
 
-  /**
-   * Methods
-   */
-  methods: {
-    updataSelected(index) {
+  mounted() {
+    emitter.on('handleClicked',  (index) => {
       this.selected = index;
       this.curContent = this.tabs[index].component;
-    },
-  }
+    })
+  },
 }
 </script>
 
