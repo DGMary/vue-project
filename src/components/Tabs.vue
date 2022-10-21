@@ -49,7 +49,7 @@ export default {
   },
 
   mounted() {
-    emitter.on('handleClicked',  (index) => {
+    emitter.on('tabClicked',  (index) => {
       this.selected = index;
       this.curContent = this.tabs[index].component;
     })

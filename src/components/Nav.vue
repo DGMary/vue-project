@@ -5,7 +5,7 @@
         :key="index"  
         :class="['tabs-nav__item', selected === index && ' active']"        
         >
-        <button  @click="handleSelected(index)">
+        <button  @click="tabSelected(index)">
           {{ tab.title }}
         </button>
       </li>
@@ -47,8 +47,8 @@ export default {
    * Methods
    */
   methods: {
-    handleSelected(index) {
-      emitter.emit('handleClicked', index);
+    tabSelected(index) {
+      emitter.emit('tabClicked', index);
     },
   }
 }
