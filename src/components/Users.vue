@@ -3,13 +3,20 @@
     <thead>
       <tr>
         <th>Title</th>
-        <th>User Name</th>
+        <th>
+            <td>
+              <div>User Name</div>
+            </td>
+            <td> 
+              <div class="btn-holder"><el-button type="primary" @click="sortByName">Sort by User Name</el-button></div>
+            </td>
+        </th>
         <th>User selected</th>
       </tr>
     </thead>
     <tbody>
       <tr  
-        v-for="user in users"
+        v-for="user in sortedUsers"
         :key="user.id"
       >
         <td>{{user.name}}</td>
@@ -60,16 +67,45 @@ export default {
   data() {
     return {
       checkedUser: {},
+      sortUsersByName: [],
     };
   },
+
+  /**
+   * Computed.
+   */
+  computed: {
+
+    /**
+    * Sorted users.
+    */
+    sortedUsers() {
+      return this.sortUsersByName.length ? this.sortUsersByName : this.users;
+    },
+  },
+
 
   /**
    * Methods.
    */
   methods: {
+
+    /**
+     * Checked user id
+     * @param id 
+     */
     checkedUserId(id) {
       this.$emit('update', id);
     },
+
+    /**
+     * Sort users by Name.
+     */
+    sortByName() {
+      this.sortUsersByName = JSON.parse(JSON.stringify(this.users)).sort(function(a, b){
+        return (a.username>b.username) ? 1 :-1;
+      });
+    }
   }
 };
 </script>
@@ -84,6 +120,12 @@ export default {
 .table td {
   padding: 8px 16px;
   border: 1px solid lightgray;
+}
+
+.table th td {
+  border: none;
+  padding: 0;
+  min-width: none;
 }
 
 .el-table .is-checked {
