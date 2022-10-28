@@ -48,12 +48,22 @@ export default {
     };
   },
 
+  /**
+   * Mounted
+   */
   mounted() {
     emitter.on('tabClicked',  (index) => {
       this.selected = index;
       this.curContent = this.tabs[index].component;
     })
   },
+
+  /**
+   * Before destroy
+   */
+  beforeDestroy() {
+    emitter.off('tabClicked');
+  }
 }
 </script>
 
