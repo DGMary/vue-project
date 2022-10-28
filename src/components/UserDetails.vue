@@ -6,11 +6,12 @@
         :key="user.id"
         class="el-collapse-item__holder"
       >
-        <div v-for="active in activeUsers" :key="active" >
-          <div v-if="active == user.id" class="label">
-            Primary
-          </div>      
-        </div>
+        <div 
+          v-if="activeUsers.includes(user.id)" 
+          class="label"
+        >
+          Primary
+        </div>     
         <el-button type="primary" @click="openModal(user.id)">
           More info
         </el-button>
@@ -23,7 +24,7 @@
         </el-collapse-item>
       </div>
     </el-collapse>
-    <el-dialog 
+    <!-- <el-dialog 
       title="Modal" 
       :visible.sync="dialogVisible" 
       width="600px"
@@ -32,7 +33,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
@@ -41,9 +42,28 @@ export default {
   /**
    * Name.
    */
-  name: "TabUsers",
+  name: "UserDetails",
 
-  props: ["users", "activeUsers"],
+  /**
+   * Props.
+   */
+  props: {
+    /**
+     * Users
+     */
+    users: {
+      type: Array, 
+      required: true
+    },
+
+    /**
+     * Active users
+     */
+    activeUsers: {
+      type: Array, 
+      required: true
+    }
+  },
 
   /**
    * Reactive properties.
@@ -59,8 +79,7 @@ export default {
   /**
    * Methods.
    */
-  methods: {
-    
+  methods: {    
     openModal() {
       this.dialogVisible = true;
     },

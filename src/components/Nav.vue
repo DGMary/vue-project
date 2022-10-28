@@ -1,59 +1,56 @@
 <template>
-  <div class="tabs">
-    <Nav :selected="selected" :tabs="tabs" />
-    <TabContent :content="curContent" />
-  </div>
+  <ul class="tabs-nav__list" v-if="tabs.length">
+      <li  
+        v-for="(tab, index) in tabs"
+        :key="index"  
+        :class="['tabs-nav__item', selected === index && ' active']"        
+        >
+        <button  @click="tabSelected(index)">
+          {{ tab.title }}
+        </button>
+      </li>
+    </ul>
 </template>
 
 <script>
-import TabContent from './TabContent.vue'
-import Nav from './Nav.vue'
-import { TABSINFO } from './tabs'
-
 import emitter from './emittery';
 
 export default {
+
   /**
    * Name.
    */
-  name: "Tabs",
+  name: "Nav",
 
   /**
-   * Components
+   * Props.
    */
-  components: {
-    TabContent,
-    Nav,
-  },
-
-  /**
-   * Computed
-   */
-  computed: {
+  props: {
     /**
-     * TabsInformation.
+     * Tabs
      */
-     tabs () {
-      return TABSINFO;
+    tabs: {
+      type: Array,
+      required: true
     },
-  },  
+
+    /**
+     * Selected tab
+     */
+    selected: {
+      type: Number,
+      required: true      
+    }
+  },
 
   /**
-   * Data
+   * Methods
    */
-  data() {
-    return {
-      selected: 0, 
-      curContent: "Details",
-    };
-  },
-
-  mounted() {
-    emitter.on('tabClicked',  (index) => {
-      this.selected = index;
-      this.curContent = this.tabs[index].component;
-    })
-  },
+  methods: {
+    tabSelected(index) {
+      emitter.emit('tabClicked', index);
+    },
+  }
 }
 </script>
 
