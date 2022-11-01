@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       <tr  
-        v-for="user in sortedUsers"
+        v-for="user in currentUsers"
         :key="user.id"
       >
         <td>{{user.name}}</td>
@@ -67,23 +67,9 @@ export default {
   data() {
     return {
       checkedUser: {},
-      sortUsersByName: [],
+      currentUsers: [...this.users],
     };
   },
-
-  /**
-   * Computed.
-   */
-  computed: {
-
-    /**
-    * Sorted users.
-    */
-    sortedUsers() {
-      return this.sortUsersByName.length ? this.sortUsersByName : this.users;
-    },
-  },
-
 
   /**
    * Methods.
@@ -102,9 +88,7 @@ export default {
      * Sort users by Name.
      */
     sortByName() {
-      this.sortUsersByName = JSON.parse(JSON.stringify(this.users)).sort(function(a, b){
-        return (a.username>b.username) ? 1 :-1;
-      });
+      this.currentUsers = (this.currentUsers).sort((a, b) => {return (a.username.toLowerCase() > b.username.toLowerCase()) ? 1 :-1});
     }
   }
 };
