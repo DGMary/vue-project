@@ -2,7 +2,8 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    users: []
+    users: [],
+    error: '',
   },
 
   mutations: {
@@ -18,7 +19,8 @@ export default createStore({
         const data = await response.json();
         context.commit("setUsers", data);
       } catch (err) {
-        return console.error(err);
+        context.error = err;
+        return console.error(context.error);
       }
     },
   },
