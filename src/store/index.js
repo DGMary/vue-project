@@ -4,23 +4,32 @@ export default createStore({
   state: {
     users: [],
     error: '',
+    isLoading: false,
   },
 
   mutations: {
     setUsers(state, users){
       state.users = users
+    },
+    loading (state,  loadingStatus){
+      state.isLoading = loadingStatus
+    },
+    postError(state, err) {
+      state.error = err;
     }
   },
 
   actions: {
-    async fetchUsers(context) {
-      try {
+    async fetchUsers({commit}) {
+      commit("loading", true);
+      try {        
         const response = await fetch("https://jsonplaceholder.typicode.com/users");
         const data = await response.json();
-        context.commit("setUsers", data);
+        commit("setUsers", data);
+        commit("loading", false);
       } catch (err) {
-        context.error = err;
-        return console.error(context.error);
+        commit('postError', err);
+        return console.error(this.state.error);
       }
     },
   },
@@ -28,6 +37,10 @@ export default createStore({
   getters: {
     users(state) {
       return state.users;
+    },
+
+    isLoading(state) {
+      return state.isLoading;
     },
   },
 })

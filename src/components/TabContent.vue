@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs-container">
+  <div class="tabs-container" v-loading="isLoading">
     <keep-alive>
       <component :is="content" :users="users" :active-users="activeUsers" @update="updateActiveUsers"></component>
     </keep-alive>
@@ -30,7 +30,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['users'])
+    ...mapGetters(['users', 'isLoading'])
   },
 
   /**
