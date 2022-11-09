@@ -48,7 +48,7 @@
 
 
 <script>
-import sortBy from 'lodash';
+import {sortBy , slice} from 'lodash';
 
 export default {
   /**
@@ -76,7 +76,7 @@ export default {
   data() {
     return {
       checkedUser: {},
-      currentUsers: [...this.users],
+      currentUsers: slice(this.users),
       sortedAsc: true,
     };
   },
