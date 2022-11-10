@@ -9,7 +9,8 @@ export default createStore({
 
   mutations: {
     setUsers(state, users){
-      state.users = users
+      state.users = users;
+      localStorage.setItem("users", JSON.stringify(state.users));
     },
     loading (state,  loadingStatus){
       state.isLoading = loadingStatus
@@ -21,16 +22,22 @@ export default createStore({
 
   actions: {
     async fetchUsers({commit}) {
+      const savedUsers = localStorage.getItem("users");
       commit("loading", true);
-      try {        
-        const response = await fetch("https://jsonplaceholder.typicode.com/users");
-        const data = await response.json();
-        commit("setUsers", data);
-        commit("loading", false);
-      } catch (err) {
-        commit('postError', err);
-        return console.error(this.state.error);
+      
+      if (savedUsers !== null) {
+        commit("setUsers", JSON.parse(savedUsers));        
+      } else {
+        try {        
+          const response = await fetch("https://jsonplaceholder.typicode.com/users");
+          const data = await response.json();
+          commit("setUsers", data);
+        } catch (err) {
+          commit('postError', err);
+          return console.error(this.state.error);
+        }
       }
+      commit("loading", false);
     },
   },
   
