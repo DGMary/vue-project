@@ -8,7 +8,7 @@
             placeholder="Please serach by name"
             class="input-with-select"
             size="large"
-            @input="filteredByName"
+            @input="searchByName"
           >
             <template #prepend>
               <el-button >
@@ -129,18 +129,16 @@ export default {
     },
 
     /**
-     * Filter users by Name.
+     * Search users by Name.
      */
-    filteredByName() {
+    searchByName() {
       const users = [...this.users];
       
-      if (this.searchValue != '' && this.searchValue) {
-        this.currentUsers = users.filter((user) => {return user.username.toLowerCase().includes(this.searchValue.toLowerCase())})
-      } 
-
-      if (this.searchValue == '' ) {
+      if (this.searchValue.length > 0) {
+       return  this.currentUsers = this.users.filter((user) => {return user.username.toLowerCase().includes(this.searchValue.toLowerCase())})
+      } else {
         this.currentUsers = users;
-      }
+      }      
 
     }
   }
