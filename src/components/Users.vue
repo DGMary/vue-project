@@ -46,7 +46,7 @@
     </thead>
     <tbody>
       <tr  
-        v-for="user in currentUsers"
+        v-for="user in userList"
         :key="user.id"
       >
         <td>{{user.name}}</td>
@@ -105,6 +105,28 @@ export default {
   },
 
   /**
+   * Computed.
+   */
+  computed: {
+    userList() {
+      let users = this.currentUsers;
+
+      users = users.sort((a, b) => {return (a.username.toLowerCase() > b.username.toLowerCase()) ? 1 :-1});
+
+      if (!this.ascending) {
+        users.reverse();
+      }
+
+      if (this.searchValue.length > 0) {
+       return  users = users.filter((user) => {return user.username.toLowerCase().includes(this.searchValue.toLowerCase())})
+      }
+
+      return users;
+
+    }
+  },
+
+  /**
    * Methods.
    */
   methods: {
@@ -122,25 +144,7 @@ export default {
      */
     sortByName() {
       this.ascending = !this.ascending;
-      this.currentUsers = (this.currentUsers).sort((a, b) => {return (a.username.toLowerCase() > b.username.toLowerCase()) ? 1 :-1});
-      if (!this.ascending) {
-        this.currentUsers.reverse();
-      }
     },
-
-    /**
-     * Search users by Name.
-     */
-    searchByName() {
-      const users = [...this.users];
-      
-      if (this.searchValue.length > 0) {
-       return  this.currentUsers = this.users.filter((user) => {return user.username.toLowerCase().includes(this.searchValue.toLowerCase())})
-      } else {
-        this.currentUsers = users;
-      }      
-
-    }
   }
 };
 </script>
