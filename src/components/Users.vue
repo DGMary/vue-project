@@ -3,6 +3,27 @@
     <thead>
       <tr>
         <th colspan="3">
+          <el-input
+            v-model="searchValue"
+            placeholder="Please serach by name"
+            class="input-with-select"
+            size="large"
+          >
+            <template #prepend>
+              <el-button >
+                <!-- TODO  extract icon-->
+                <i class="icon icon-search icon-black">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 487.95 487.95" style="enable-background:new 0 0 487.95 487.95;" xml:space="preserve">
+                    <path d="M481.8,453l-140-140.1c27.6-33.1,44.2-75.4,44.2-121.6C386,85.9,299.5,0.2,193.1,0.2S0,86,0,191.4s86.5,191.1,192.9,191.1    c45.2,0,86.8-15.5,119.8-41.4l140.5,140.5c8.2,8.2,20.4,8.2,28.6,0C490,473.4,490,461.2,481.8,453z M41,191.4    c0-82.8,68.2-150.1,151.9-150.1s151.9,67.3,151.9,150.1s-68.2,150.1-151.9,150.1S41,274.1,41,191.4z"/>
+                  </svg>
+                </i>
+              </el-button>
+            </template>
+          </el-input>
+        </th>
+      </tr>
+      <tr>
+        <th colspan="3">
           <div class="btn-holder">
             <el-button type="primary" @click="sortByName">
               Sort by User Name
@@ -23,7 +44,7 @@
     </thead>
     <tbody>
       <tr  
-        v-for="user in currentUsers"
+        v-for="user in userList"
         :key="user.id"
       >
         <td>{{user.name}}</td>
@@ -48,7 +69,7 @@
 
 
 <script>
-import {sortBy , slice} from 'lodash';
+import { slice} from 'lodash';
 
 export default {
   /**
@@ -78,7 +99,36 @@ export default {
       checkedUser: {},
       currentUsers: slice(this.users),
       sortedAsc: true,
+      searchValue: '',
     };
+  },
+
+  /**
+   * Computed.
+   */
+  computed: {
+    userList() {
+      let users = this.currentUsers;
+
+      // this.sortedAsc = !this.sortedAsc;
+      // users = sortBy(users, [(a, b) =>  (b.username).localeCompare(a.username)]);
+
+
+
+      users = users.sort((a, b) => {return (a.username.toLowerCase() > b.username.toLowerCase()) ? 1 :-1});
+      // this.currentUsers = sortBy(this.currentUsers, [(a, b) => (b.username).localeCompare(a.username)]);
+
+      if (!this.sortedAsc) {
+        users.reverse();
+      }
+
+      if (this.searchValue.length > 0) {
+       return  users = users.filter((user) => {return user.username.toLowerCase().includes(this.searchValue.toLowerCase())})
+      }
+
+      return users;
+
+    }
   },
 
   /**
@@ -97,14 +147,9 @@ export default {
     /**
      * Sort users by Name.
      */
-    sortByName() {
+    sortByName() {     
       this.sortedAsc = !this.sortedAsc;
-      this.currentUsers = sortBy(this.currentUsers, [(a, b) =>  (b.username).localeCompare(a.username)]);
-
-      if (!this.sortedAsc) {
-        this.currentUsers.reverse();
-      }
-    }
+    },
   }
 };
 </script>
@@ -112,8 +157,8 @@ export default {
 <style>
 .icon {
   display: inline-flex;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 .icon svg {
   display: inline-flex;
