@@ -16,6 +16,7 @@ export default createStore({
     },
     postError(state, err) {
       state.error = err;
+      console.error(state.error);
     }
   },
 
@@ -26,10 +27,10 @@ export default createStore({
         const response = await fetch("https://jsonplaceholder.typicode.com/users");
         const data = await response.json();
         commit("setUsers", data);
-        commit("loading", false);
       } catch (err) {
         commit('postError', err);
-        return console.error(this.state.error);
+      } finally {
+        commit("loading", false);
       }
     },
   },
