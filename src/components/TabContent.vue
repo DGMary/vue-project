@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs-container">
+  <div class="tabs-container" v-loading="isLoading">
     <keep-alive>
       <component :is="content" :users="users" :active-users="activeUsers" @update="updateActiveUsers"></component>
     </keep-alive>
@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import Details from "./UserDetails";
 import Users from './Users'
 
@@ -24,13 +25,20 @@ export default {
     Users,
   },
 
+  created() {
+    this.fetchUsers();
+  },
+
+  computed: {
+    ...mapGetters(['users', 'isLoading'])
+  },
+
   /**
    * Reactive properties.
    * @returns {{}}
    */
   data() {
     return {
-      users: [],
       activeUsers: []
     };
   },
@@ -43,19 +51,12 @@ export default {
   },
 
   /**
-   * Mounted hook.
-   */
-  mounted() {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((json) => (this.users = json))
-      .catch(error => console.log(error.message));
-  },
-
-  /**
    * Methods.
    */
   methods: {
+    
+    ...mapActions(["fetchUsers"]),
+    
     /**
      * Update activeUsers
      */
