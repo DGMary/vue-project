@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import localStorage from '../utils/localStorage';
 
 export default createStore({
   state: {
@@ -10,7 +11,7 @@ export default createStore({
   mutations: {
     setUsers(state, users){
       state.users = users;
-      localStorage.setItem("users", JSON.stringify(state.users));
+      localStorage.set("users",  state.users);
     },
     loading (state,  loadingStatus){
       state.isLoading = loadingStatus
@@ -22,12 +23,12 @@ export default createStore({
 
   actions: {
     async fetchUsers({commit}) {
-      const savedUsers = localStorage.getItem("users");
+      const savedUsers = localStorage.get("users");
       commit("loading", true);
-      
-      if (savedUsers !== null) {
-        commit("setUsers", JSON.parse(savedUsers));        
-      } else {
+
+      if (savedUsers !== null && savedUsers !== undefined) {
+        commit("setUsers", savedUsers);        
+      } else {  
         try {        
           const response = await fetch("https://jsonplaceholder.typicode.com/users");
           const data = await response.json();
@@ -37,6 +38,7 @@ export default createStore({
           return console.error(this.state.error);
         }
       }
+
       commit("loading", false);
     },
   },
