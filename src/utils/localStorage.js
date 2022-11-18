@@ -2,25 +2,29 @@ const localStorage = {
 
   exists: (window.localStorage !== undefined),
 
+  isExist(exists) {
+    if (!exists) return;
+  },
+
   get(key) {
-    if (!this.exists) return;
+    this.isExist();
     const data = window.localStorage.getItem(key);
     if (!data) return;
     return JSON.parse(data);
   },
 
   set(key, data) {
-    if (!this.exists) return;
+    this.isExist();
     window.localStorage.setItem(key, JSON.stringify(data));
   },
 
   remove(key) {
-    if (!this.exists) return;
+    this.isExist();
     window.localStorage.removeItem(key);
   },
 
   clear() {
-    if (!this.exists) return;
+    this.isExist();
     window.localStorage.clear();
   }
 }
