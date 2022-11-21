@@ -13,25 +13,26 @@ function renderNav() {
   })
 }
 
-it('render tabs navigation' , () => {
-  renderNav()
 
-  const button1 = screen.getByText('User details');
-
-  expect(button1.getElementsByClassName('active').length).toBe(0);
+describe('Tabs navigation', () => {
   
-  screen.getByText(/User list/i);
-
-})
-
-it('add active class after click in tab navigation button' , async () => {
-  renderNav()
-
-  const button = screen.getByText('User list')
-
-  await fireEvent.click(button)
-
-  expect(button.getElementsByClassName('active').length).toBe(0);
-
-})
+  it('render tabs navigation' , () => {
+    renderNav()
+  
+    screen.getByText('User details');
+    screen.getByText('User list');
+  
+  })
+  
+  it('add active class after click in tab navigation button' , async () => {
+    renderNav()
+  
+    const button = screen.getByText('User list')
+  
+    await fireEvent.click(button)
+  
+    expect(button.getElementsByClassName('active').length).toBe(0);
+  
+  })
+});
 
