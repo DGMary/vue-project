@@ -3,13 +3,13 @@ const localStorage = {
   exists: (window.localStorage !== undefined),
 
   isExist(exists) {
-    if (!exists) return;
+    if (!exists) return null;
   },
 
   get(key) {
     this.isExist();
     const data = window.localStorage.getItem(key);
-    if (!data) return;
+    if (!data) return null;
     return JSON.parse(data);
   },
 

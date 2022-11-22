@@ -26,7 +26,7 @@ export default createStore({
       const savedUsers = localStorage.get("users");
       commit("loading", true);
 
-      if (savedUsers !== null && savedUsers !== undefined) {
+      if (savedUsers) {
         commit("setUsers", savedUsers);        
       } else {  
         try {        
