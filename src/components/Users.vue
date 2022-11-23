@@ -41,6 +41,9 @@
 
 
 <script>
+import emitter from './emittery';
+import localStorage  from "../utils/localStorage.js"
+
 export default {
   /**
    * Name.
@@ -66,7 +69,7 @@ export default {
    */
   data() {
     return {
-      checkedUser: {},
+      checkedUser: localStorage.get("activeUsersSaved") || {},
       sortUsersByName: [],
     };
   },
@@ -94,8 +97,9 @@ export default {
      * Checked user id
      * @param id 
      */
-    checkedUserId(id) {
-      this.$emit('update', id);
+    checkedUserId(id) {   
+      localStorage.set("activeUsersSaved", this.checkedUser);
+      emitter.emit('update', id);
     },
 
     /**

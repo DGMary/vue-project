@@ -1,7 +1,7 @@
 <template>
   <div class="tabs-container" v-loading="isLoading">
     <keep-alive>
-      <component :is="content" :users="users" :active-users="activeUsers" @update="updateActiveUsers"></component>
+      <component :is="content" :users="users" :active-users="activeUsers"></component>
     </keep-alive>
   </div>
 </template>
@@ -10,6 +10,9 @@
 import { mapActions, mapGetters } from "vuex";
 import Details from "./UserDetails";
 import Users from './Users'
+import emitter from "./emittery";
+import localStorage  from "../utils/localStorage.js"
+
 
 export default {
   /**
@@ -39,7 +42,7 @@ export default {
    */
   data() {
     return {
-      activeUsers: []
+      activeUsers: [],
     };
   },
 
@@ -51,22 +54,45 @@ export default {
   },
 
   /**
+   * Mounted
+   */
+   mounted() {
+    this.getUsersFromLocalStorage();
+
+    emitter.on('update',  (id) => {            
+      this.updateActiveUsers(id)
+    })
+  },
+
+  /**
    * Methods.
    */
   methods: {
     
     ...mapActions(["fetchUsers"]),
+
+    getUsersFromLocalStorage() {
+      let activeUsersSaved = localStorage.get("activeUsersSaved");
+
+      if (activeUsersSaved) {        
+        let keys = Object.keys(activeUsersSaved).filter(k => activeUsersSaved[k])
+        this.activeUsers = keys.map(el => parseInt(el));
+      }
+    },
     
     /**
      * Update activeUsers
      */
-    updateActiveUsers(id) {
-       if (this.activeUsers.includes(id)) {
-        this.activeUsers = this.activeUsers.filter(userId => userId != id);
-      } else {
-        this.activeUsers.push(id);
-      }
+    updateActiveUsers() {  
+      this.getUsersFromLocalStorage();
     },
+  },
+
+  /**
+   * Before destroy
+   */
+   beforeDestroy() {
+    emitter.off('update');
   },
 }
 </script>
