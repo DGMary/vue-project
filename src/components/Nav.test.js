@@ -1,5 +1,7 @@
-import {render, screen, fireEvent } from '@testing-library/vue'
+import { mount } from '@vue/test-utils'
 import Nav from './Nav'
+
+let wrapper;
 
 const tabsInfo = [
   {title: 'User details', component: 'Details'},
@@ -8,29 +10,31 @@ const tabsInfo = [
 
 describe('Tabs navigation', () => {
 
-  beforeEach(() => {
-    return render(Nav, {
-      props:{
-        selected: 0,
-        tabs: tabsInfo
-      }    
-    })
-  });
-  
+  const wrapper = mount(Nav, {
+    props: {
+      selected: 0,
+      tabs: tabsInfo
+    }
+  })
+
+
   it('render tabs navigation' , () => {
 
-    expect(screen.getByText(tabsInfo[0].title)).toBeTruthy();
-    expect(screen.getByText('User list')).toBeTruthy(); 
+    const activeTab = wrapper.get('.tabs-nav__item.active')
+    const tab = wrapper.get('.tabs-nav__item:nth-child(2)')
+  
+    expect(activeTab.text()).toBe('User details')
+    expect(tab.text()).toBe('User list')
 
   })
   
-  it('add active class after click in tab navigation button' , () => {
+  it('add active class after change selected item' , async () => {
 
-    const button = screen.getByText('User list')
-  
-    fireEvent.click(button)
-  
-    expect(button.getElementsByClassName('active').length).toBe(0);
+      const $btnDiscard = wrapper.findAll('.tabs-nav__item').at(1);
+
+      await wrapper.setProps({ selected: 1 })
+     
+      expect($btnDiscard.classes()).toContain('active')       
   
   })
 });
